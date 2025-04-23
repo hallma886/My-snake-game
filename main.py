@@ -37,5 +37,33 @@ apple_pos = [random.randint(0, SCREEN_WIDTH // CELL_SIZE - 1) * CELL_SIZE, rando
 # Font for score
 font = pygame.font.SysFont(None, 35)
 
-# Load and play backround Music
-#pygame.mixer.music.load("backround_music.mp3")
+def draw_screen():
+    screen.fill(BG)
+
+def draw_apple():
+    pygame.draw.rect(screen, APPLE_COLOR, (apple_pos[0], apple_pos[1], CELL_SIZE, CELL_SIZE))
+
+def draw_score():
+    score_text = font.render(f"Score: {score}", True, BLACK)
+    screen.blit(score_text, [10, 10])
+
+running = True
+while running:
+    draw_screen()
+    draw_apple()
+    draw_score()
+
+    # Loop through events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP and direction != 3: 
+                direction = 1
+            elif event.key == pygame.K_RIGHT and direction != 4: #Right
+                direction = 2
+            elif event.key == pygame.KDOWN and direction != 1:  # Down
+                direction = 3
+            elif event.key == pygame.K_LEFT and direction != 2: # Left
+                direction = 4
+
