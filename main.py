@@ -67,3 +67,21 @@ while running:
             elif event.key == pygame.K_LEFT and direction != 2: # Left
                 direction = 4
 
+    if update_snake > 99:
+        update_snake = 0
+
+        head_x, head_y = snake_pos[0]
+
+        if direction == 1:
+            head_y -= CELL_SIZE
+        elif direction == 2:
+            head_x += CELL_SIZE
+        elif direction == 3:
+            head_y -= CELL_SIZE
+        elif direction == 4:
+            head_x += CELL_SIZE
+        
+        snake_pos.insert(0, [head_x, head_y])
+        snake_pos.pop()
+
+        
