@@ -37,8 +37,7 @@ apple_pos = [random.randint(0, SCREEN_WIDTH // CELL_SIZE - 1) * CELL_SIZE, rando
 # Font for score
 font = pygame.font.SysFont(None, 35)
 
-def draw_screen():
-    screen.fill(BG)
+def draw_screen():screen.fill(BG)
 
 def draw_apple():
     pygame.draw.rect(screen, APPLE_COLOR, (apple_pos[0], apple_pos[1], CELL_SIZE, CELL_SIZE))
@@ -62,7 +61,7 @@ while running:
                 direction = 1
             elif event.key == pygame.K_RIGHT and direction != 4: #Right
                 direction = 2
-            elif event.key == pygame.KDOWN and direction != 1:  # Down
+            elif event.key == pygame.K_DOWN and direction != 1:  # Down
                 direction = 3
             elif event.key == pygame.K_LEFT and direction != 2: # Left
                 direction = 4
@@ -84,4 +83,26 @@ while running:
         snake_pos.insert(0, [head_x, head_y])
         snake_pos.pop()
 
-        
+        if snake_pos[0] ==apple_pos:
+            apple_pos = [random.randint(0, SCREEN_WIDTH // CELL_SIZE - 1) * CELL_SIZE, random.randint(0, SCREEN_HEIGHT // CELL_SIZE - 1) * CELL_SIZE]
+            snake_pos.append(snake_pos[-1])
+            score += 1
+
+            if head_x < 0 or head_x >= SCREEN_WIDTH or head_y < 0 or head_y >= SCREEN_WIDTH:
+                running = False
+        # Draw snake
+        for i in range(len(snake_pos)):
+            segment = snake_pos[i]
+            if i == 0:
+                pygame.draw.rect(screen, BODY_OUTER, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
+                pygame.draw.rect(screen, RED, segment[0] + 1, segment[1] + 1, CELL_SIZE - 2, CELL_SIZE - 2)
+            else:
+                pygame.draw.rect(screen, BODY_OUTER, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
+                pygame.draw.rect(screen, BODY_INNER, (segment[0] + 1, segment[1] + 1, CELL_SIZE - 2, CELL_SIZE - 2))
+
+        pygame.display.flip()
+
+        update_snake += 1
+
+pygame.quit()
+sys.exit()
