@@ -37,7 +37,8 @@ apple_pos = [random.randint(0, SCREEN_WIDTH // CELL_SIZE - 1) * CELL_SIZE, rando
 # Font for score
 font = pygame.font.SysFont(None, 35)
 
-def draw_screen():screen.fill(BG)
+def draw_screen():
+    screen.fill(BG)
 
 def draw_apple():
     pygame.draw.rect(screen, APPLE_COLOR, (apple_pos[0], apple_pos[1], CELL_SIZE, CELL_SIZE))
@@ -68,7 +69,6 @@ while running:
 
     if update_snake > 99:
         update_snake = 0
-
         head_x, head_y = snake_pos[0]
 
         if direction == 1:
@@ -76,33 +76,34 @@ while running:
         elif direction == 2:
             head_x += CELL_SIZE
         elif direction == 3:
-            head_y -= CELL_SIZE
+            head_y += CELL_SIZE
         elif direction == 4:
-            head_x += CELL_SIZE
+            head_x -= CELL_SIZE
         
         snake_pos.insert(0, [head_x, head_y])
         snake_pos.pop()
 
-        if snake_pos[0] ==apple_pos:
+        if snake_pos[0] == apple_pos:
             apple_pos = [random.randint(0, SCREEN_WIDTH // CELL_SIZE - 1) * CELL_SIZE, random.randint(0, SCREEN_HEIGHT // CELL_SIZE - 1) * CELL_SIZE]
             snake_pos.append(snake_pos[-1])
             score += 1
 
             if head_x < 0 or head_x >= SCREEN_WIDTH or head_y < 0 or head_y >= SCREEN_WIDTH:
                 running = False
-        # Draw snake
-        for i in range(len(snake_pos)):
-            segment = snake_pos[i]
-            if i == 0:
-                pygame.draw.rect(screen, BODY_OUTER, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
-                pygame.draw.rect(screen, RED, segment[0] + 1, segment[1] + 1, CELL_SIZE - 2, CELL_SIZE - 2)
-            else:
-                pygame.draw.rect(screen, BODY_OUTER, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
-                pygame.draw.rect(screen, BODY_INNER, (segment[0] + 1, segment[1] + 1, CELL_SIZE - 2, CELL_SIZE - 2))
+    # Draw snake
+    for i in range(len(snake_pos)):
+        segment = snake_pos[i]
+        print(segment)
+        if i == 0:
+            pygame.draw.rect(screen, BODY_OUTER, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, RED, (segment[0] + 1, segment[1] + 1, CELL_SIZE - 2, CELL_SIZE - 2))
+        else:
+            pygame.draw.rect(screen, BODY_OUTER, (segment[0], segment[1], CELL_SIZE, CELL_SIZE))
+            pygame.draw.rect(screen, BODY_INNER, (segment[0] + 1, segment[1] + 1, CELL_SIZE - 2, CELL_SIZE - 2))
 
-        pygame.display.flip()
+    pygame.display.flip()
 
-        update_snake += 1
+    update_snake += 1
 
 pygame.quit()
 sys.exit()
